@@ -19,12 +19,13 @@ def get_url():
 
 browser = get_driver()
 max_retries = 0
+counter = 0
 
 
 def vote():
-    counter = 0
-    global max_retries
 
+    global max_retries
+    global counter
     while True:
         print(f'Vote {counter}')
 
