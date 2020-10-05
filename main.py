@@ -1,7 +1,6 @@
 from time import sleep
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
-from seleniumrequests import Chrome
 
 
 def get_driver():
@@ -67,15 +66,5 @@ def vote():
             vote()
 
 
-
-
-web_driver = Chrome(ChromeDriverManager().install())
-
-def vote_via_api():
-    # while True:
-    response = web_driver.request('POST', 'https://artstalentafrica.com/wp-admin/admin-ajax.php',
-                                 data={"action": "it_epoll", "option_id": 413315, "poll_id": "2375"})
-    print(response)
-
 if __name__ == '__main__':
-    vote_via_api()
+    vote()
