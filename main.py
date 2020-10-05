@@ -1,12 +1,14 @@
 from time import sleep
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from seleniumrequests import Chrome
 
 
 def get_driver():
     # Initialize the browser
     options = webdriver.ChromeOptions()
     # options.add_argument('headless')
+    options.add_argument("--incognito")
     _driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     _driver.maximize_window()
     _driver.implicitly_wait(20)
@@ -30,6 +32,7 @@ def vote():
         print(f'Vote {counter}')
 
         try:
+            # browser = get_driver()
             browser.get(get_url())
 
             # Find the vote button
@@ -41,9 +44,10 @@ def vote():
 
             # click to vote
             vote_button.click()
-            sleep(2.5)
+            sleep(7)
 
             # clear all cookies to enable re-voting
+            # browser.close()
             browser.delete_all_cookies()
             counter += 1
 
@@ -52,16 +56,26 @@ def vote():
         except Exception as ex:
             print(str(ex))
 
-            print('Resuming')
             max_retries += 1
+            print(f'Resuming: {max_retries}')
 
             # If we have retried too many times, stop
-            if max_retries == 50:
+            if max_retries == 100:
                 exit(1)
 
             # try again
             vote()
 
 
+
+
+web_driver = Chrome(ChromeDriverManager().install())
+
+def vote_via_api():
+    # while True:
+    response = web_driver.request('POST', 'https://artstalentafrica.com/wp-admin/admin-ajax.php',
+                                 data={"action": "it_epoll", "option_id": 413315, "poll_id": "2375"})
+    print(response)
+
 if __name__ == '__main__':
-    vote()
+    vote_via_api()
