@@ -43,7 +43,7 @@ def vote():
 
             # click to vote
             vote_button.click()
-            sleep(7)
+            sleep(3)
 
             # clear all cookies to enable re-voting
             # browser.close()
